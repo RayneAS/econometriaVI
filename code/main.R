@@ -1,0 +1,111 @@
+#-------------------------------------------------------------------------------
+
+# Master in Economics FEA-USP
+# Econometric VI 
+# Rayne Santos
+
+#-------------------------------------------------------------------------------
+
+rm(list = ls())
+gc()
+
+#install.packages("sidrar")
+#install.packages("jtools")
+#install.packages("sandwich")
+#install.packages("officer")
+#install.packages("flextable")
+#install.packages("huxtable")
+#install.packages("broom.mixed")
+#install.packages("lmtest")
+#install.packages("lmtest")
+#install.packages("matlib")
+#install.packages("fixest")
+#install.packages("plm")
+#install.packages("aod")
+#install.packages("tinytex")
+#install.packages("readxl")
+#install.packages("rbcb")
+#install.packages("forecast")
+#install.packages("GetBCBData")
+#install.packages("tidyverse")
+#install.packages("urca")
+#install.packages("vars")
+#install.packages("forecast")
+#install.packages("mFilter")
+#install.packages("tseries")
+#install.packages("lubridate")
+#install.packages("dplyr")
+#install.packages("readr")
+#install.packages("TSstudio")
+#install.packages("BETS")
+#install.packages("devtools")
+#install.packages("PNADcIBGE")
+#install.packages("srvyr")
+
+
+library(devtools)
+library(BETS)
+library(sidrar)
+library(zoo)
+library(GetBCBData)
+library(tidyverse)
+library(urca)
+library(vars)
+library(forecast)
+library(mFilter)
+library(tseries)
+library(lubridate)
+library(dplyr)
+library(readr)
+library(TSstudio)
+library(tinytex)
+library(aod)
+library(fixest)
+library(plm)
+library(ggplot2)
+library(gridExtra)
+library(matlib)
+library(lmtest)
+library(broom.mixed)
+library(huxtable)
+library(officer)
+library(flextable)
+library(sandwich)
+library(jtools)
+library(dplyr)
+library(data.table)
+library(tictoc)
+library(haven)
+library(questionr)     
+library(tidyverse)
+library(data.table)
+library(ggplot2)
+library(ggthemes)
+library(cowplot)
+library(Hmisc)
+library(questionr)
+library(stargazer)
+library(ggpubr)
+library(summarytools)
+library(kableExtra)
+library(psych)
+library(readxl)
+library(rbcb)
+library(forecast)
+library(foreign)
+library(dplyr)
+library(tidyr)
+library(PNADcIBGE)
+library(srvyr)
+
+# Set user
+user = "Rayne"
+
+if (user == "Rayne") {
+  data_dir <- "C:/Users/rayne/Documents/dados_econometria_VI"
+  working_dir <- "C:/Users/rayne/Documents/@github/econometriaVI"
+}
+
+code_dir <- file.path(working_dir, "code")
+figures_dir <- file.path(working_dir, "output")
+
