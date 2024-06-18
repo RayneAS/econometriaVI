@@ -1,8 +1,3 @@
-setwd("C:/Users/thiag/OneDrive/Mestrado FEA-USP/Eletivas/Econometria V/Artigo/Dados")
-memory.limit(9999999999999)
-
-library(foreign)
-library(dplyr)
 
 data <- read.dta("Base_final_completa.dta")
 
@@ -68,7 +63,7 @@ data <- data %>%
       ungroup()
 
 # Salvando a base de dados
-write.dta(data, "Base_final.dta")
+# write.dta(data, "Base_final.dta")
 
-
-
+write.csv(data, file = "D:/rayne/Documents/dados_econometria_VI/Base_final.csv",
+          row.names = FALSE)

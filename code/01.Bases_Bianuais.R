@@ -1,12 +1,3 @@
-setwd("C:/Users/thiag/OneDrive/Mestrado FEA-USP/Eletivas/Econometria V/Artigo/Dados")
-memory.limit(9999999999999)
-
-#Carregando os pacotes necessários
-library(foreign)
-library(dplyr)
-library(tidyr)
-library(PNADcIBGE)
-library(srvyr)
 
 #Anos
 Anos <- c(2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023)

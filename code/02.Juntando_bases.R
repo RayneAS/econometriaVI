@@ -1,7 +1,3 @@
-setwd("C:/Users/thiag/OneDrive/Mestrado FEA-USP/Eletivas/Econometria V/Artigo/Dados")
-memory.limit(9999999999999)
-
-library(foreign)
 
 base_2012 <- readRDS("PNADC_Bianual_L_2012.RDS")
 
@@ -30,6 +26,3 @@ base_unida <- rbind(base_2012, base_2013, base_2014, base_2015, base_2016,
                     base_2022)
 
 write.dta(base_unida, "Base_final_completa.dta")
-
-
-

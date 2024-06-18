@@ -102,10 +102,11 @@ library(srvyr)
 user = "Rayne"
 
 if (user == "Rayne") {
-  data_dir <- "C:/Users/rayne/Documents/dados_econometria_VI"
-  working_dir <- "C:/Users/rayne/Documents/@github/econometriaVI"
+  data_dir <- "D:/rayne/Documents/dados_econometria_VI"
+  working_dir <- "D:/rayne/Documents/@github/econometriaVI"
 }
 
 code_dir <- file.path(working_dir, "code")
 figures_dir <- file.path(working_dir, "output")
 
+setwd(data_dir)
