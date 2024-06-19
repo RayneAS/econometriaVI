@@ -41,7 +41,8 @@ gc()
 #install.packages("devtools")
 #install.packages("PNADcIBGE")
 #install.packages("srvyr")
-
+#install.packages("stats")
+#install.packages("plm")
 
 library(devtools)
 library(BETS)
@@ -97,6 +98,9 @@ library(dplyr)
 library(tidyr)
 library(PNADcIBGE)
 library(srvyr)
+library(stats)
+library(plm)
+
 
 # Set user
 user = "Rayne"

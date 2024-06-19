@@ -30,7 +30,19 @@ data <- data %>%
 
 # Criando novas variáveis
 
-  # Choque de saúde
+
+#V4006: Na semana de ... a .... (semana de referência), por que motivo ... 
+#estava afastado desse trabalho?
+  
+#V4006A: Na semana de ... a .... (semana de referência), por que motivo ... 
+#estava afastado desse trabalho?
+#V4006A: 5 Afastamento do próprio negócio/empresa por motivo de gestação, doença, acidente, etc., 
+#sem ser remunerado por instituto de previdência
+
+#V1016: numero de entrevista do domicilio
+#V2005: condicao no domicilio (igual a 1 é o chefe)
+
+# Choque de saúde
   data <- data %>%
     mutate(V4006 = ifelse(is.na(V4006), 0, V4006),
            V4006A = ifelse(is.na(V4006A), 0, V4006A)) %>%
@@ -64,6 +76,6 @@ data <- data %>%
 
 # Salvando a base de dados
 # write.dta(data, "Base_final.dta")
-
+    
 write.csv(data, file = "D:/rayne/Documents/dados_econometria_VI/Base_final.csv",
           row.names = FALSE)
