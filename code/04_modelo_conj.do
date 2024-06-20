@@ -22,11 +22,16 @@ ren V2009 idade
 ren V2010 cor
 *ren VD3006 educ
 ren VD4010 grup_ativ
+ren V4008 temp_afast
 
+ 
 *trabalhadores em idade entre 50-60 sao mais frequentes no choque
 sum idade if choque_max==1
 sum idade if choque_max==0
+
 tab grup_ativ
+tab temp_afast
+
 
 sum renda_deflac if choque_max==1 [aw=V1028]
 sum renda_deflac if choque_max==0 [aw=V1028]
