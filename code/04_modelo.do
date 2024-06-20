@@ -3,7 +3,7 @@ global data_folder "D:/rayne/Documents/dados_econometria_VI"
 
 *keep if Ano == 2012 | Ano == 2013
 
-log using "D:/rayne/Documents/dados_econometria_VI/model_teste.log", replace
+log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
 
 // Abrir a base de dados 
 *use "${data_folder}/Base_final.dta", clear
@@ -18,11 +18,17 @@ ren V1023 tipo_area
 ren V1016 num_entrev 
 ren Ano ano
 ren Trimestre tri
+ren V2009 idade 
+ren V2010 cor
+*ren VD3006 educ
+ren VD4010 grup_ativ
+
+*trabalhadores em idade entre 50-60 sao mais frequentes no choque
+sum idade if choque_max==1
+sum idade if choque_max==0
+tab grup_ativ
 
 tab choque_max ano
-
-sum renda_deflac if ano==2012 & choque_max==1 [aw=V1028]
-sum renda_deflac if ano==2012 & choque_max==0 [aw=V1028]
 
 sum renda_deflac if choque_max==1 [aw=V1028]
 sum renda_deflac if choque_max==0 [aw=V1028]
@@ -41,7 +47,7 @@ foreach ano in `anos' {
 local anos 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023
 
 foreach ano in `anos' {
-    display "Summary statistics for year `ano' with choque_max==1:"
+    display "Summary statistics for year `ano' with choque_max==0:"
     quietly sum renda_deflac if ano==`ano' & choque_max==0 [aw=V1028]
     display r(mean)
     display r(sd)
@@ -52,10 +58,6 @@ foreach ano in `anos' {
 sum renda_deflac if choque_max==1 [aw=V1028]
 sum renda_deflac if choque_max==0 [aw=V1028]
 
-sum horas_trab_t if choque_max==1 [aw=V1028]
-sum horas_trab_t if choque_max==0 [aw=V1028]
-
-tab horas_trab_t if choque_max==1
 
 * contar o número de entrevistas por indiv
 *by idind, sort: gen num_entrev_count = _N
@@ -70,7 +72,7 @@ tab horas_trab_t if choque_max==1
 destring idind, replace
 destring iddom, replace
 
-duplicates report idind iddom
+*duplicates report idind iddom
 
 *Definindo o formato painel:
 xtset idind 
@@ -92,12 +94,12 @@ estimates store FE
 xtreg renda_deflac choque_max i.ano i.tri, fe vce(robust)
 estimates store FE
 
-
-*xtreg renda choque_max [aw=V1028], fe vce(robust)
-*estimates store FE
-
-xtreg horas_trab_pr choque_max [aw=V1028], fe vce(robust) aw=V1028
+xtreg renda_deflac choque i.grup_ativ i.cor i.ano i.tri, fe vce(robust)
 estimates store FE
  
 
+ *testes
+ *idade não é um bom controle
+ 
+ 
 log close
