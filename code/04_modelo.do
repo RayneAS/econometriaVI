@@ -1,9 +1,7 @@
 // Define o caminho para a pasta de dados
 global data_folder "D:/rayne/Documents/dados_econometria_VI"
 
-*keep if Ano == 2012 | Ano == 2013
-
-log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
+*log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
 
 // Abrir a base de dados 
 *use "${data_folder}/Base_final.dta", clear
@@ -25,40 +23,81 @@ ren VD4010 grup_ativ
 ren V4008 temp_afast
 
 
-gen choque_fraco = 1 if temp_afast==1
+/*gen choque_fraco = 1 if temp_afast==1
 replace choque_fraco=0 if temp_afast==.
 
 gen choque_forte = 1 if temp_afast==2
 replace choque_forte=0 if temp_afast==.
-
 tab choque_fraco
 tab choque_forte
-
+*/
 
 
 *trabalhadores em idade entre 50-60 sao mais frequentes no choque
-sum idade if choque_max==1
-sum idade if choque_max==0
+sum idade if choque_max_remun==1
+sum idade if choque_max_remun==0
 
-tab cor if choque_max==1
-tab cor if choque_max==0
-
+tab cor if choque_max_remun==1
+tab cor if choque_max_remun==0
 
 
 tab grup_ativ
 tab temp_afas
-tab choque_max ano
+tab choque_max_remun ano
+tab choque_max_nremun ano
+tab choque_max_total ano
 
-sum renda_deflac if choque_max==1 [aw=V1028]
-sum renda_deflac if choque_max==0 [aw=V1028]
+sum renda_deflac if choque_max_nremun==1 [aw=V1028]
+sum renda_deflac if choque_max_nremun==0 [aw=V1028]
 
+sum renda_deflac if choque_max_remun==1 [aw=V1028]
+sum renda_deflac if choque_max_remun==0 [aw=V1028]
+
+sum renda_deflac if choque_max_total==1 [aw=V1028]
+sum renda_deflac if choque_max_total==0 [aw=V1028]
+
+
+tab num_entrev
+tab treated
+tab treated if num_entrev == 1
+tab treated if num_entrev == 5
+
+*exclui da amostra se tiver individuos com choque de saúde na primeira entrevista
+drop if choque_max_remun==1 & num_entrev == 1
+drop if choque_max_nremun==1 & num_entrev == 1
+drop if choque_max_total==1 & num_entrev == 1
+
+*modelo de diff in diff
+reg renda_deflac time treated did [aw=V1028]
+reg renda_deflac time treated did 
+*collapse (mean) renda_deflac, by(time treated)
+
+reg horas_trab_t time treated did [aw=V1028]
+
+*indid numeric
+egen idind_num = group(idind)
+list idind idind_num in 1/10
+
+*did model
+didregress (renda_deflac) (treated_2), group(idind_num) time(time)
+estat trendplots
+estat ptrends
+
+collapse (mean) renda_deflac, by(ano treated_2)
+
+twoway (line renda_deflac ano if treated_2 == 1, lcolor(blue) lpattern(solid)) ///
+       (line renda_deflac ano if treated_2 == 0, lcolor(red) lpattern(dash)), ///
+       legend(label(1 "Tratado") label(2 "Controle")) ///
+       title("Renda Deflacionada por Ano") ///
+       ytitle("Renda Deflacionada") xtitle("Ano")
+
+/*
 sum renda_deflac if choque_fraco==1
 sum renda_deflac if choque_fraco==0
 
-
 sum renda_deflac if choque_forte==1
 sum renda_deflac if choque_forte==0
-
+*/
 
 *graph
 * Calcular a proporção de choques por ano
@@ -156,6 +195,11 @@ sum renda_deflac if choque_max==1 [aw=V1028]
 sum renda_deflac if choque_max==0 [aw=V1028]
 
 
+
+********************************************************************************
+*Se a ideia fosse estimar um modelo com efeitos fixos
+*******************************************************************************
+
 * contar o número de entrevistas por indiv
 *by idind, sort: gen num_entrev_count = _N
 
@@ -165,11 +209,6 @@ sum renda_deflac if choque_max==0 [aw=V1028]
 * remover a var aux 
 *drop num_entrev_count
 
-*torna indid numeric
-destring idind, replace
-destring iddom, replace
-
-*duplicates report idind iddom
 
 *Definindo o formato painel:
 xtset idind 
@@ -195,8 +234,6 @@ xtreg renda_deflac choque i.grup_ativ i.cor i.ano i.tri, fe vce(robust)
 estimates store FE
  
 
- *testes
- *idade não é um bom controle
  
  
 log close
