@@ -62,24 +62,38 @@ tab treated
 tab treated if num_entrev == 1
 tab treated if num_entrev == 5
 
+
+
 *exclui da amostra se tiver individuos com choque de saúde na primeira entrevista
 drop if choque_max_remun==1 & num_entrev == 1
 drop if choque_max_nremun==1 & num_entrev == 1
 drop if choque_max_total==1 & num_entrev == 1
 
+*********
+
+* contar o número de entrevistas por indiv
+by idind, sort: gen num_entrev_count = _N
+
+* filtrar os indiv que fizeram todas as 5 entrevistas
+keep if num_entrev_count == 2
+
+* remover a var aux 
+drop num_entrev_count
+
+
 *modelo de diff in diff
-reg renda_deflac time treated did [aw=V1028]
-reg renda_deflac time treated did 
+reg renda_deflac time treated did i.ano [aw=V1028]
+reg renda_deflac time treated did i.ano
 *collapse (mean) renda_deflac, by(time treated)
 
-reg horas_trab_t time treated did [aw=V1028]
+reg horas_trab_t time treated did i.ano[aw=V1028]
 
 *indid numeric
 egen idind_num = group(idind)
 list idind idind_num in 1/10
 
 *did model
-didregress (renda_deflac) (treated_2), group(idind_num) time(time)
+didregress (renda_deflac) (did), group(idind_num) time(time)
 estat trendplots
 estat ptrends
 
