@@ -57,7 +57,7 @@ sum renda_deflac if choque_max_total==1 [aw=V1028]
 sum renda_deflac if choque_max_total==0 [aw=V1028]
 
 
-tab num_entrev
+tab num_entrev ano
 tab treated
 tab treated if num_entrev == 1
 tab treated if num_entrev == 5
@@ -75,11 +75,10 @@ drop if choque_max_total==1 & num_entrev == 1
 by idind, sort: gen num_entrev_count = _N
 
 * filtrar os indiv que fizeram todas as 5 entrevistas
-keep if num_entrev_count == 2
+keep if num_entrev_count == 5
 
 * remover a var aux 
 drop num_entrev_count
-
 
 *modelo de diff in diff
 reg renda_deflac time treated did i.ano [aw=V1028]
