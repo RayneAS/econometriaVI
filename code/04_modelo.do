@@ -21,6 +21,10 @@ ren V2010 cor
 *ren VD3006 educ
 ren VD4010 grup_ativ
 ren V4008 temp_afast
+ren V2007 sexo
+
+
+
 
 
 /*gen choque_fraco = 1 if temp_afast==1
@@ -79,6 +83,15 @@ keep if num_entrev_count == 5
 
 * remover a var aux 
 drop num_entrev_count
+
+*drop _ps
+*ssc install diff
+*Realiza o psm para depois rodar o diff in diff
+logit treated idade grup_ativ cor UF 
+predict _ps, pr
+
+*Modelo com diff in diff e propensity score matching
+diff renda_deflac, t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
 
 *modelo de diff in diff
 reg renda_deflac time treated did i.ano [aw=V1028]
