@@ -91,7 +91,7 @@ logit treated idade grup_ativ cor UF
 predict _ps, pr
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac, t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
 
 *modelo de diff in diff
 reg renda_deflac time treated did i.ano [aw=V1028]
