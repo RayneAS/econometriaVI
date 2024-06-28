@@ -262,4 +262,4 @@ estimates store FE
 
  
  
-log close
+*log close
