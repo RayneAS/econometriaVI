@@ -186,16 +186,33 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
 
-
+      r(mean_c0)      // mean of output_var of the control group in period == 0
+      r(mean_t0)      //mean of output_var of the treated group in period == 0
+      r(diff0)        //difference of the mean of output_var between treated
+                       //and control groups in period == 0
+      r(mean_c1)      //mean of output_var of the control group in period == 1
+      r(mean_t1)      //mean of output_var of the treated group in period == 1
+      r(diff1)        //difference of the mean of output_var between treated
+                       //and control groups in period == 1
+      r(diffdiff)     //differences in differences - Treatment Effect
+      r(se_c0)        //Standard Error of the mean of output_var of the control
+                       //group in period == 0
+      r(se_t0)        //Standard Error of the mean of output_var of the treated
+                       //group in period == 0
+      r(se_d0)        //Standard Error of the difference of output_var between
+                       //the treated and control groups in period == 0
+      r(se_c1)        //Standard Error of the mean of output_var of the control
+                       //group in period == 1
+      r(se_t1)        //Standard Error of the mean of output_var of the treated
+                       //group in period == 1
+      r(se_d1)        //Standard Error of the difference of output_var between
+                       //the treated and control groups in == 0
+      r(se_dd)        //Standard Error of the difference in difference
 *******************************************************************************
 
-
-
-
-
 *modelo de diff in diff
-reg renda_deflac time treated did i.ano [aw=V1028]
-reg renda_deflac time treated did i.ano
+reg renda_deflac time treated did  [aw=V1028]
+reg renda_deflac time treated did 
 *collapse (mean) renda_deflac, by(time treated)
 
 reg horas_trab_t time treated did i.ano[aw=V1028]
