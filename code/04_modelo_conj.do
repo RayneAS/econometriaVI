@@ -1,11 +1,9 @@
 // Define o caminho para a pasta de dados
 global data_folder "D:/rayne/Documents/dados_econometria_VI"
 
-*log using "D:/rayne/Documents/dados_econometria_VI/model_conj.log", replace
+log using "D:/rayne/Documents/dados_econometria_VI/model_conj.log", replace
 
 // Abrir a base de dados 
-*use "${data_folder}/Base_final.dta", clear
-
 use "${data_folder}/Base_final_conjuge.dta", clear
 
 ren VD4020 renda
@@ -23,6 +21,18 @@ ren VD4010 grup_ativ
 ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
+
+*Cria novo id para puxar as informações do chefe de domicilio
+egen new_id = concat(iddom num_entrev ano tri)
+
+* Merge com a base chefe usando a variável new_id
+merge m:m new_id using "${data_folder}/chefe_merge_info.dta"
+
+* Manter as obser que estão presentes em ambas as bases de dados da base 
+keep if _merge == 3
+
+* Removendo a var de merge
+drop _merge
 
 *Algumas descritivas
 sum idade if choque_max_nremun==1
@@ -52,6 +62,7 @@ sum renda_deflac if choque_max_total==0
 tab num_entrev ano
 
 *Cria as variaveis que serao utilizadas nos modelos
+
 *did para choque nao remunerado
 gen time = 0
 replace time = 1 if num_entrev == 5
@@ -90,7 +101,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated idade grup_ativ UF educ 
+logit treated UF idade_chefe grup_ativ_chefe educ_chefe
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -118,13 +129,15 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
 
+diff horas_trab_t [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+
 
 *******************************************************************************
 ************** estima para choque remunerado*******************************
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 idade grup_ativ UF educ 
+logit treated_2 UF idade_chefe grup_ativ_chefe educ_chefe
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -152,13 +165,14 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
 
+diff horas_trab_t [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
 
 *******************************************************************************
 ************** estima para choque remunerado e nao remunerado *******************************
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 idade grup_ativ UF educ 
+logit treated_3 UF idade_chefe grup_ativ_chefe educ_chefe
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -186,29 +200,9 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
 
-      r(mean_c0)      // mean of output_var of the control group in period == 0
-      r(mean_t0)      //mean of output_var of the treated group in period == 0
-      r(diff0)        //difference of the mean of output_var between treated
-                       //and control groups in period == 0
-      r(mean_c1)      //mean of output_var of the control group in period == 1
-      r(mean_t1)      //mean of output_var of the treated group in period == 1
-      r(diff1)        //difference of the mean of output_var between treated
-                       //and control groups in period == 1
-      r(diffdiff)     //differences in differences - Treatment Effect
-      r(se_c0)        //Standard Error of the mean of output_var of the control
-                       //group in period == 0
-      r(se_t0)        //Standard Error of the mean of output_var of the treated
-                       //group in period == 0
-      r(se_d0)        //Standard Error of the difference of output_var between
-                       //the treated and control groups in period == 0
-      r(se_c1)        //Standard Error of the mean of output_var of the control
-                       //group in period == 1
-      r(se_t1)        //Standard Error of the mean of output_var of the treated
-                       //group in period == 1
-      r(se_d1)        //Standard Error of the difference of output_var between
-                       //the treated and control groups in == 0
-      r(se_dd)        //Standard Error of the difference in difference
+diff horas_trab_t [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
+
 *******************************************************************************
 
-*log close
+log close
 
