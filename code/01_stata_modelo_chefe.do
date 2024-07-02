@@ -77,7 +77,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)robust
 
 
 *******************************************************************************
@@ -111,7 +111,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
+diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
 
 *******************************************************************************
@@ -145,7 +145,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
+diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
 
 *******************************************************************************
@@ -238,7 +238,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps) robust
 
 
 *******************************************************************************
@@ -272,7 +272,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
+diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
 
 *******************************************************************************
@@ -306,7 +306,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
+diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
 
 *******************************************************************************
@@ -398,7 +398,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps) robust
 
 
 *******************************************************************************
@@ -432,7 +432,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
+diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
 
 *******************************************************************************
@@ -466,7 +466,7 @@ pstest idade grup_ativ UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
+diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
 
 *******************************************************************************
@@ -562,7 +562,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps) robust
 
 
 *******************************************************************************
@@ -596,7 +596,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
+diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
 
 *******************************************************************************
@@ -723,7 +723,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps) robust
 
 
 *******************************************************************************
@@ -757,7 +757,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
+diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
 
 *******************************************************************************
@@ -791,7 +791,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
+diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
 
 *******************************************************************************
@@ -889,7 +889,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)
+diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps) robust
 
 
 *******************************************************************************
@@ -923,7 +923,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2)
+diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
 
 *******************************************************************************
@@ -957,7 +957,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
+diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
 
 *******************************************************************************
