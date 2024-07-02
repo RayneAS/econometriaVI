@@ -4,7 +4,6 @@ global data_folder "D:/rayne/Documents/dados_econometria_VI"
 log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
 
 // Abrir a base de dados 
-
 use "${data_folder}/Base_final_chefe.dta", clear
 
 ren VD4020 renda
