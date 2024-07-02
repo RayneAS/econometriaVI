@@ -630,7 +630,7 @@ pstest idade UF educ , graph
 psgraph
 
 *Modelo com diff in diff e propensity score matching
-diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3)
+diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
 
 *******************************************************************************
