@@ -826,7 +826,11 @@ ren V2007 sexo
 ren V2001 num_pes_dom
 
 *MANTEM SE O GRUPO DE ATIVIDADE É 
-*Indústria geral 
+*Comércio, reparação de veículos automotores e motocicletas
+*Transporte, armazenagem e correio 
+*Alojamento e alimentação 
+*Informação, comunicação e atividades financeiras, imobiliárias, profissionais 
+*e administrativas
 keep if grup_ativ ==4 | grup_ativ ==5 | grup_ativ ==6 | grup_ativ ==7
 
 
