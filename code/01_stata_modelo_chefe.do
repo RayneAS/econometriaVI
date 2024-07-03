@@ -1,7 +1,7 @@
 // Define o caminho para a pasta de dados
 global data_folder "D:/rayne/Documents/dados_econometria_VI"
 
-log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
+*log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
 
 // Abrir a base de dados 
 use "${data_folder}/Base_final_chefe.dta", clear
@@ -51,7 +51,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated i.idade i.cor i.grup_ativ i.UF i.educ
+logit treated i.idade i.cor i.grup_ativ i.UF i.educ i.rural
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -70,16 +70,31 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) caliper(1) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
 psgraph
 
+psmatch2 treated , out(renda_deflac) pscore(_ps) ai(2) mahalanobis(i.idade i.cor i.grup_ativ i.UF i.educ) caliper(1) common
+
+psmatch2 treated , out(renda_deflac) pscore(_ps) ai(2) caliper(1) common
+
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)robust
 
 
+
+sum idade if _treated == 0 [aw=V1028]
+sum idade if _treated == 1 [aw=V1028]
+tab cor _treated [aw=V1028], col
+gen estado = 1 if inlist(UF, 21, 22, 23, 24, 25, 26, 27, 28, 29)
+replace estado = 2 if inlist(UF, 11, 12, 13, 14, 15, 16, 17)
+replace estado = 3 if inlist(UF, 31, 32, 33, 35)
+replace estado = 4 if inlist(UF, 41, 42, 43)
+replace estado = 5 if inlist(UF, 50, 51, 52, 53)
+tab estado _treated [aw=V1028], col
+tab grup_ativ _treated [aw=V1028], col
 *******************************************************************************
 ************** estima para choque remunerado*******************************
 *drop _ps_2
