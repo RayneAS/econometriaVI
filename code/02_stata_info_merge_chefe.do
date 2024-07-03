@@ -20,14 +20,15 @@ ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
 
-keep idind iddom num_entrev ano tri idade grup_ativ UF educ
+keep idind iddom num_entrev ano tri idade grup_ativ UF educ cor
 
 egen new_id = concat(iddom num_entrev ano tri)
 
 ren idade idade_chefe
 ren grup_ativ grup_ativ_chefe
 ren educ educ_chefe
+ren cor cor_chefe
 
-keep new_id idade_chefe grup_ativ_chefe educ_chefe
+keep new_id idade_chefe grup_ativ_chefe educ_chefe cor_chefe
 
 save "${data_folder}/chefe_merge_info.dta", replace
