@@ -76,14 +76,10 @@ pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
 psgraph
 
-psmatch2 treated , out(renda_deflac) pscore(_ps) ai(2) mahalanobis(i.idade i.cor i.grup_ativ i.UF i.educ) caliper(1) common
-
-psmatch2 treated , out(renda_deflac) pscore(_ps) ai(2) caliper(1) common
+psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)robust
-
-
 
 sum idade if _treated == 0 [aw=V1028]
 sum idade if _treated == 1 [aw=V1028]
