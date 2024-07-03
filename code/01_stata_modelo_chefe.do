@@ -21,41 +21,6 @@ ren VD4010 grup_ativ
 ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
-
-gen educ_0 = 0
-replace educ_0 =1 if educ==0 
-gen educ_1 = 0
-replace educ_1=1 if educ==1 
-gen educ_2 = 0
-replace educ_2=1 if educ==2 
-gen educ_3 = 0
-replace educ_3=1 if educ==3
-gen educ_4 = 0
-replace educ_4=1 if educ==4
-gen educ_5 = 0
-replace educ_5=1 if educ==5
-gen educ_6 = 0
-replace educ_6=1 if educ==6
-gen educ_7 = 0
-replace educ_7=1 if educ==7
-gen educ_8 = 0
-replace educ_8=1 if educ==8
-gen educ_9 = 0
-replace educ_9=1 if educ==9
-gen educ_10 = 0
-replace educ_10=1 if educ==10
-gen educ_11 = 0
-replace educ_11=1 if educ==11
-gen educ_12 = 0
-replace educ_12=1 if educ==12
-gen educ_13 = 0
-replace educ_13=1 if educ==13
-gen educ_14 = 0
-replace educ_14=1 if educ==14
-gen educ_15 = 0
-replace educ_15=1 if educ==15
-gen educ_16 = 0
-replace educ_16=1 if educ==16 
  
 *Cria as variaveis que serao utilizadas nos modelos
 *did para choque nao remunerado
@@ -86,7 +51,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated i.idade i.cor i.grup_ativ i.UF i.educ
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -107,7 +72,7 @@ keep if _ps >= `common_min' & _ps <= `common_max'
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
 psgraph
 
@@ -120,7 +85,7 @@ diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_2 i.idade i.cor i.grup_ativ i.UF i.educ
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -141,7 +106,7 @@ keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest idade i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
 psgraph
 
@@ -154,7 +119,7 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_3 i.idade i.cor i.grup_ativ i.UF i.educ 
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -175,7 +140,7 @@ keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest idade i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
 psgraph
 
@@ -218,40 +183,6 @@ ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
 
-gen educ_0 = 0
-replace educ_0 =1 if educ==0 
-gen educ_1 = 0
-replace educ_1=1 if educ==1 
-gen educ_2 = 0
-replace educ_2=1 if educ==2 
-gen educ_3 = 0
-replace educ_3=1 if educ==3
-gen educ_4 = 0
-replace educ_4=1 if educ==4
-gen educ_5 = 0
-replace educ_5=1 if educ==5
-gen educ_6 = 0
-replace educ_6=1 if educ==6
-gen educ_7 = 0
-replace educ_7=1 if educ==7
-gen educ_8 = 0
-replace educ_8=1 if educ==8
-gen educ_9 = 0
-replace educ_9=1 if educ==9
-gen educ_10 = 0
-replace educ_10=1 if educ==10
-gen educ_11 = 0
-replace educ_11=1 if educ==11
-gen educ_12 = 0
-replace educ_12=1 if educ==12
-gen educ_13 = 0
-replace educ_13=1 if educ==13
-gen educ_14 = 0
-replace educ_14=1 if educ==14
-gen educ_15 = 0
-replace educ_15=1 if educ==15
-gen educ_16 = 0
-replace educ_16=1 if educ==16 
 
 *Cria as variaveis que serao utilizadas nos modelos
 *did para choque nao remunerado
@@ -282,7 +213,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated i.idade i.cor i.grup_ativ i.UF i.educ
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -303,7 +234,7 @@ keep if _ps >= `common_min' & _ps <= `common_max'
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
 psgraph
 
@@ -316,7 +247,7 @@ diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_2 i.idade i.cor i.grup_ativ i.UF i.educ 
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -337,7 +268,7 @@ keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.grup_ativ i.UF i.educ, graph
 
 psgraph
 
@@ -350,7 +281,7 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_3 i.idade i.cor i.grup_ativ i.UF  
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -371,7 +302,7 @@ keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.grup_ativ i.UF  , graph
 
 psgraph
 
@@ -413,41 +344,6 @@ ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
 
-gen educ_0 = 0
-replace educ_0 =1 if educ==0 
-gen educ_1 = 0
-replace educ_1=1 if educ==1 
-gen educ_2 = 0
-replace educ_2=1 if educ==2 
-gen educ_3 = 0
-replace educ_3=1 if educ==3
-gen educ_4 = 0
-replace educ_4=1 if educ==4
-gen educ_5 = 0
-replace educ_5=1 if educ==5
-gen educ_6 = 0
-replace educ_6=1 if educ==6
-gen educ_7 = 0
-replace educ_7=1 if educ==7
-gen educ_8 = 0
-replace educ_8=1 if educ==8
-gen educ_9 = 0
-replace educ_9=1 if educ==9
-gen educ_10 = 0
-replace educ_10=1 if educ==10
-gen educ_11 = 0
-replace educ_11=1 if educ==11
-gen educ_12 = 0
-replace educ_12=1 if educ==12
-gen educ_13 = 0
-replace educ_13=1 if educ==13
-gen educ_14 = 0
-replace educ_14=1 if educ==14
-gen educ_15 = 0
-replace educ_15=1 if educ==15
-gen educ_16 = 0
-replace educ_16=1 if educ==16 
-
 *Cria as variaveis que serao utilizadas nos modelos
 *did para choque nao remunerado
 gen time = 0
@@ -477,7 +373,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated i.idade i.cor i.grup_ativ i.UF  
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -498,7 +394,7 @@ keep if _ps >= `common_min' & _ps <= `common_max'
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.grup_ativ i.UF  , graph
 
 psgraph
 
@@ -511,7 +407,7 @@ diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15
+logit treated_2 i.idade i.cor i.grup_ativ i.UF 
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -532,7 +428,7 @@ keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.grup_ativ i.UF  , graph
 
 psgraph
 
@@ -545,7 +441,7 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_3 i.idade i.cor i.grup_ativ i.UF  
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -566,7 +462,7 @@ keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
 
-pstest idade i.cor i.grup_ativ i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.grup_ativ i.UF  , graph
 
 psgraph
 
@@ -607,40 +503,6 @@ ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
 
-gen educ_0 = 0
-replace educ_0 =1 if educ==0 
-gen educ_1 = 0
-replace educ_1=1 if educ==1 
-gen educ_2 = 0
-replace educ_2=1 if educ==2 
-gen educ_3 = 0
-replace educ_3=1 if educ==3
-gen educ_4 = 0
-replace educ_4=1 if educ==4
-gen educ_5 = 0
-replace educ_5=1 if educ==5
-gen educ_6 = 0
-replace educ_6=1 if educ==6
-gen educ_7 = 0
-replace educ_7=1 if educ==7
-gen educ_8 = 0
-replace educ_8=1 if educ==8
-gen educ_9 = 0
-replace educ_9=1 if educ==9
-gen educ_10 = 0
-replace educ_10=1 if educ==10
-gen educ_11 = 0
-replace educ_11=1 if educ==11
-gen educ_12 = 0
-replace educ_12=1 if educ==12
-gen educ_13 = 0
-replace educ_13=1 if educ==13
-gen educ_14 = 0
-replace educ_14=1 if educ==14
-gen educ_15 = 0
-replace educ_15=1 if educ==15
-gen educ_16 = 0
-replace educ_16=1 if educ==16 
 
 *MANTEM SE O GRUPO DE ATIVIDADE É 
 *Agricultura, pecuária, produção florestal, pesca e aquicultura 
@@ -676,7 +538,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated i.idade i.cor i.UF i.educ 
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -697,7 +559,7 @@ keep if _ps >= `common_min' & _ps <= `common_max'
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -710,7 +572,7 @@ diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_2 i.idade i.cor i.UF i.educ 
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -731,7 +593,7 @@ keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -744,7 +606,7 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_3 i.idade i.cor i.UF i.educ 
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -765,7 +627,7 @@ keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -803,40 +665,6 @@ ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
 
-gen educ_0 = 0
-replace educ_0 =1 if educ==0 
-gen educ_1 = 0
-replace educ_1=1 if educ==1 
-gen educ_2 = 0
-replace educ_2=1 if educ==2 
-gen educ_3 = 0
-replace educ_3=1 if educ==3
-gen educ_4 = 0
-replace educ_4=1 if educ==4
-gen educ_5 = 0
-replace educ_5=1 if educ==5
-gen educ_6 = 0
-replace educ_6=1 if educ==6
-gen educ_7 = 0
-replace educ_7=1 if educ==7
-gen educ_8 = 0
-replace educ_8=1 if educ==8
-gen educ_9 = 0
-replace educ_9=1 if educ==9
-gen educ_10 = 0
-replace educ_10=1 if educ==10
-gen educ_11 = 0
-replace educ_11=1 if educ==11
-gen educ_12 = 0
-replace educ_12=1 if educ==12
-gen educ_13 = 0
-replace educ_13=1 if educ==13
-gen educ_14 = 0
-replace educ_14=1 if educ==14
-gen educ_15 = 0
-replace educ_15=1 if educ==15
-gen educ_16 = 0
-replace educ_16=1 if educ==16 
 
 
 *MANTEM SE O GRUPO DE ATIVIDADE É 
@@ -873,7 +701,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated i.idade i.cor i.UF i.educ 
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -894,7 +722,7 @@ keep if _ps >= `common_min' & _ps <= `common_max'
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -907,7 +735,7 @@ diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_2 i.idade i.cor i.UF i.educ 
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -928,7 +756,7 @@ keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -941,7 +769,7 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_3 i.idade i.cor i.UF i.educ 
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -962,7 +790,7 @@ keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -1001,40 +829,6 @@ ren V4008 temp_afast
 ren V2007 sexo
 ren V2001 num_pes_dom
 
-gen educ_0 = 0
-replace educ_0 =1 if educ==0 
-gen educ_1 = 0
-replace educ_1=1 if educ==1 
-gen educ_2 = 0
-replace educ_2=1 if educ==2 
-gen educ_3 = 0
-replace educ_3=1 if educ==3
-gen educ_4 = 0
-replace educ_4=1 if educ==4
-gen educ_5 = 0
-replace educ_5=1 if educ==5
-gen educ_6 = 0
-replace educ_6=1 if educ==6
-gen educ_7 = 0
-replace educ_7=1 if educ==7
-gen educ_8 = 0
-replace educ_8=1 if educ==8
-gen educ_9 = 0
-replace educ_9=1 if educ==9
-gen educ_10 = 0
-replace educ_10=1 if educ==10
-gen educ_11 = 0
-replace educ_11=1 if educ==11
-gen educ_12 = 0
-replace educ_12=1 if educ==12
-gen educ_13 = 0
-replace educ_13=1 if educ==13
-gen educ_14 = 0
-replace educ_14=1 if educ==14
-gen educ_15 = 0
-replace educ_15=1 if educ==15
-gen educ_16 = 0
-replace educ_16=1 if educ==16 
 
 *MANTEM SE O GRUPO DE ATIVIDADE É 
 *Comércio, reparação de veículos automotores e motocicletas
@@ -1074,7 +868,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15
+logit treated i.idade i.cor i.UF i.educ
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -1095,7 +889,7 @@ keep if _ps >= `common_min' & _ps <= `common_max'
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -1108,7 +902,7 @@ diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_2 i.idade i.cor i.UF i.educ 
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -1129,7 +923,7 @@ keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
@@ -1142,7 +936,7 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 
+logit treated_3 i.idade i.cor i.UF i.educ 
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -1163,7 +957,7 @@ keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
 
-pstest idade i.cor i.UF educ_1 educ_2 educ_3 educ_4 educ_5 educ_6 educ_7 educ_8 educ_9 educ_10 educ_11 educ_12 educ_13 educ_14 educ_15 , graph
+pstest i.idade i.cor i.UF i.educ , graph
 
 psgraph
 
