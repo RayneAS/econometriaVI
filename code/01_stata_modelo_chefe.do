@@ -70,13 +70,12 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) caliper(1) bw(0.06) common
+psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
 psgraph
 
-psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)robust
@@ -115,7 +114,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
@@ -149,7 +148,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
@@ -243,7 +242,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ , graph
 
@@ -277,7 +276,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ, graph
 
@@ -311,7 +310,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -403,7 +402,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -437,7 +436,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -471,7 +470,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -568,7 +567,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -602,7 +601,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -636,7 +635,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -731,7 +730,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -765,7 +764,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -799,7 +798,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -898,7 +897,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -932,7 +931,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
@@ -966,7 +965,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ , graph
 
