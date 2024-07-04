@@ -74,7 +74,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -93,9 +93,9 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -110,7 +110,7 @@ diff horas_trab_t [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_2 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -129,9 +129,9 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -145,7 +145,7 @@ diff horas_trab_t [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_3 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -164,9 +164,9 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -306,7 +306,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
 
@@ -342,7 +342,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
 
@@ -377,7 +377,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
 
@@ -518,7 +518,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
 
@@ -554,7 +554,7 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
 
@@ -589,7 +589,7 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
 
@@ -715,7 +715,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treatedi.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -734,7 +734,7 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest idade grup_ativ UF educ , graph
 
@@ -751,7 +751,7 @@ diff horas_trab_t [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_2i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -770,9 +770,9 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -786,7 +786,7 @@ diff horas_trab_t [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_3i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -805,9 +805,9 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -928,7 +928,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treatedi.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -947,9 +947,9 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -964,7 +964,7 @@ diff horas_trab_t [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_2i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -983,9 +983,9 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -999,7 +999,7 @@ diff horas_trab_t [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_3i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -1018,9 +1018,9 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -1146,7 +1146,7 @@ drop if choque_max_total==1 & num_entrev == 1
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treatedi.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -1165,9 +1165,9 @@ local common_max = min(`max_treated', `max_control')
 keep if _ps >= `common_min' & _ps <= `common_max'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) bw(0.06)
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe, graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural, graph
 
 psgraph
 
@@ -1182,7 +1182,7 @@ diff horas_trab_t [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_2i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -1201,9 +1201,9 @@ local common_max_2 = min(`max_treated_2', `max_control_2')
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) bw(0.06)
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
@@ -1217,7 +1217,7 @@ diff horas_trab_t [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe
+logit treated_3i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
@@ -1236,9 +1236,9 @@ local common_max_3 = min(`max_treated_3', `max_control_3')
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) bw(0.06)
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
-pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe , graph
+pstesti.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe i.rural , graph
 
 psgraph
 
