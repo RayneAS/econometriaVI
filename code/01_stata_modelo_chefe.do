@@ -136,7 +136,16 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
-
+sum idade if _treated == 0 [aw=V1028]
+sum idade if _treated == 1 [aw=V1028]
+tab cor _treated [aw=V1028], col
+gen estado = 1 if inlist(UF, 21, 22, 23, 24, 25, 26, 27, 28, 29)
+replace estado = 2 if inlist(UF, 11, 12, 13, 14, 15, 16, 17)
+replace estado = 3 if inlist(UF, 31, 32, 33, 35)
+replace estado = 4 if inlist(UF, 41, 42, 43)
+replace estado = 5 if inlist(UF, 50, 51, 52, 53)
+tab estado _treated [aw=V1028], col
+tab grup_ativ _treated [aw=V1028], col
 *******************************************************************************
 ************** estima para choque remunerado e nao remunerado *******************************
 
@@ -174,7 +183,16 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
-
+sum idade if _treated == 0 [aw=V1028]
+sum idade if _treated == 1 [aw=V1028]
+tab cor _treated [aw=V1028], col
+gen estado = 1 if inlist(UF, 21, 22, 23, 24, 25, 26, 27, 28, 29)
+replace estado = 2 if inlist(UF, 11, 12, 13, 14, 15, 16, 17)
+replace estado = 3 if inlist(UF, 31, 32, 33, 35)
+replace estado = 4 if inlist(UF, 41, 42, 43)
+replace estado = 5 if inlist(UF, 50, 51, 52, 53)
+tab estado _treated [aw=V1028], col
+tab grup_ativ _treated [aw=V1028], col
 *******************************************************************************
 
 
