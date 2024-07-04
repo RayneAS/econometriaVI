@@ -48,6 +48,10 @@ drop if choque_max_nremun==1 & num_entrev == 1
 drop if choque_max_total==1 & num_entrev == 1
 
 ************** estima para choque nao remunerado*******************************
+
+*DID SEM PSM
+diff renda_deflac [aw=V1028], t(treated) p(time) id(idind) ktype(gaussian) robust
+
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
@@ -84,6 +88,7 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated) p(time) kernel id(idind) ktype(gaussian) pscore(_ps)robust
 
+
 sum idade if _treated == 0 [aw=V1028]
 sum idade if _treated == 1 [aw=V1028]
 tab cor _treated [aw=V1028], col
@@ -96,6 +101,10 @@ tab estado _treated [aw=V1028], col
 tab grup_ativ _treated [aw=V1028], col
 *******************************************************************************
 ************** estima para choque remunerado*******************************
+
+*DID SEM PSM
+diff renda_deflac [aw=V1028], t(treated_2) p(time) id(idind) ktype(gaussian) robust
+
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
@@ -130,6 +139,10 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 
 *******************************************************************************
 ************** estima para choque remunerado e nao remunerado *******************************
+
+*DID SEM PSM
+diff renda_deflac [aw=V1028], t(treated_3) p(time) id(idind) ktype(gaussian) robust
+
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
