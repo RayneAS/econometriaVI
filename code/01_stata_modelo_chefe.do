@@ -71,11 +71,10 @@ keep if _ps >= `common_min' & _ps <= `common_max'
 
 summarize _ps
 local caliper = `r(sd)'/4
-
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(`r(sd)') bw(0.06) common
+psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ i.rural , graph
 
