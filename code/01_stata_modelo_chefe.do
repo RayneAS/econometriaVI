@@ -55,7 +55,7 @@ diff renda_deflac [aw=V1028], t(treated) p(time) id(idind) ktype(gaussian) robus
 *drop _ps
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated i.idade i.cor i.grup_ativ i.UF i.educ i.rural
+logit treated i.idade i.cor i.grup_ativ i.UF i.educ i.rural i.tri i.ano
 predict _ps, pr
 
 hist _ps, by(treated) bin(20) // Histograma dos propensity scores
@@ -108,7 +108,7 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) id(idind) ktype(gaussian) rob
 *drop _ps_2
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_2 i.idade i.cor i.grup_ativ i.UF i.educ i.rural
+logit treated_2 i.idade i.cor i.grup_ativ i.UF i.educ i.rural i.tri i.ano
 predict _ps_2, pr
 
 hist _ps_2, by(treated_2) bin(20) // Histograma dos propensity scores
@@ -155,7 +155,7 @@ diff renda_deflac [aw=V1028], t(treated_3) p(time) id(idind) ktype(gaussian) rob
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
-logit treated_3 i.idade i.cor i.grup_ativ i.UF i.educ i.rural 
+logit treated_3 i.idade i.cor i.grup_ativ i.UF i.educ i.rural i.tri i.ano 
 predict _ps_3, pr
 
 hist _ps_3, by(treated_3) bin(20) // Histograma dos propensity scores
