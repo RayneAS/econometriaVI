@@ -12,7 +12,7 @@ library(lubridate)
 #Billing ID in Google Big Query
 set_billing_id("stately-furnace-418521")
 
-# # Executar a consulta SQL CNPJ socios ----------------------------------------
+## Executar a consulta SQL PNS ------------------------------------------------
 query_PNS_2019 <- "SELECT 
 C001,
 C004,
@@ -53,7 +53,7 @@ names(PNS_2019) <- c("num_pes_dom", "cond_dom", "sexo","idade", "cor", "conj_mor
 #Mudar para numeric
 PNS_2019 <- PNS_2019 %>% 
   mutate_at(c('cond_dom', 'sexo','cor', 'afast','qtas_internado',
-              'tempo_internado_meses', 'tempo_internado_dias), as.numeric)
+              'tempo_internado_meses', 'tempo_internado_dias' ), as.numeric)
 
 
 ##Filtros para analise especifica ----------------------------------------------
@@ -112,3 +112,80 @@ avg
 avg <- mean(PNS_sample$tempo_internado_meses, na.rm = TRUE)
 avg
 
+## Executar a consulta SQL PNS ------------------------------------------------
+query_PNS_2019 <- "SELECT 
+J001,
+J00101,
+J002,
+J003,
+J00402,
+J00404,
+J005,
+J006,
+J007
+FROM `basedosdados.br_ms_pns.microdados_2019`;
+"
+PNS_2019 <- read_sql(query_PNS_2019)
+
+names(PNS_2019) <- c("sit_saude", "sit_saude_2", "deixou_trab_saude",
+                     "dias_deixou_trab_saude", "motivo_deixou_trab_saude", 
+                     "rel_trab_deixou_trab_saude", "acamado", "dias_acamado",
+                     "tem_doenca")
+
+
+
+PNS_2019 <- PNS_2019 %>% 
+  mutate_at(c('dias_deixou_trab_saude','dias_acamado'), as.numeric)
+
+
+#Mantem as pessoas que deixaram de trabalhar por doença 
+PNS_sample <- PNS_2019 %>% 
+  filter(deixou_trab_saude == 'sim')
+
+freq <- table(addNA(PNS_sample$motivo_deixou_trab_saude))
+freq
+
+freq <- table(addNA(PNS_sample$rel_trab_deixou_trab_saude))
+freq
+
+freq <- table(addNA(PNS_sample$dias_deixou_trab_saude))
+freq
+
+freq <- table(addNA(PNS_sample$acamado))
+freq
+
+freq <- table(addNA(PNS_sample$dias_acamado))
+freq
+
+freq <- table(addNA(PNS_sample$tem_doenca))
+freq
+
+
+
+#Mantem as pessoas que deixaram de trabalhar por motivo relacionado ao trabalho 
+PNS_sample_2 <- PNS_sample %>% 
+  filter(rel_trab_deixou_trab_saude == '1')
+
+freq <- table(addNA(PNS_sample_2$motivo_deixou_trab_saude))
+freq
+
+freq <- table(addNA(PNS_sample_2$rel_trab_deixou_trab_saude))
+freq
+
+freq <- table(addNA(PNS_sample_2$dias_deixou_trab_saude))
+freq
+
+freq <- table(addNA(PNS_sample_2$acamado))
+freq
+
+freq <- table(addNA(PNS_sample_2$dias_acamado))
+freq
+
+freq <- table(addNA(PNS_sample_2$tem_doenca))
+freq
+
+freq <- table(addNA(PNS_sample_2$sit_saude))
+freq
+
+freq <- table(addNA(PNS_sample_2$sit_saude_2))
+freq
