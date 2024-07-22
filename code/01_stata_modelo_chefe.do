@@ -516,7 +516,7 @@ local caliper = `r(sd)'/4
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.0006) bw(0.06) common
+psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.0007) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ  , graph
 
@@ -554,7 +554,7 @@ local caliper = `r(sd)'/4
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.0004) bw(0.06) common
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.0005) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ  , graph
 
@@ -592,7 +592,7 @@ local caliper = `r(sd)'/4
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.0004) bw(0.06) common
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.0005) bw(0.06) common
 
 pstest i.idade i.cor i.UF i.educ  , graph
 
