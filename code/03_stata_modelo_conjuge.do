@@ -1,7 +1,7 @@
 // Define o caminho para a pasta de dados
 global data_folder "D:/rayne/Documents/dados_econometria_VI"
 
-*log using "D:/rayne/Documents/dados_econometria_VI/model_conj.log", replace
+log using "D:/rayne/Documents/dados_econometria_VI/model_conj.log", replace
 
 // Abrir a base de dados 
 use "${data_folder}/Base_final_conjuge.dta", clear
@@ -171,6 +171,10 @@ diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussi
 
 diff horas_trab_t [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
+drop estado
+drop fund
+drop med
+drop sup
 sum idade if _treated == 0 [aw=V1028]
 sum idade if _treated == 1 [aw=V1028]
 tab cor _treated [aw=V1028], col
