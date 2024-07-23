@@ -191,7 +191,7 @@ gen sup = 1 if inlist(V3009, 10, 11, 12)
 replace sup = 0 if sup == .
 tab sup _treated [aw=V1028], col
 *******************************************************************************
-************** estima para choque remunerado e nao remunerado *******************************
+************** estima para choque remunerado e nao remunerado ****************
 *drop _ps_3
 *ssc install diff
 *Realiza o psm para depois rodar o diff in diff
@@ -219,7 +219,7 @@ local caliper = `r(sd)'/4
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.00005) bw(0.06) common
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.0005) bw(0.06) common
 
 pstest i.UF i.idade_chefe i.grup_ativ_chefe i.educ_chefe i.cor_chefe  , graph
 
@@ -364,6 +364,10 @@ local common_min = max(`min_treated', `min_control')
 local common_max = min(`max_treated', `max_control')
 
 keep if _ps >= `common_min' & _ps <= `common_max'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
@@ -400,6 +404,10 @@ local common_min_2 = max(`min_treated_2', `min_control_2')
 local common_max_2 = min(`max_treated_2', `max_control_2')
 
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
@@ -435,6 +443,10 @@ local common_min_3 = max(`min_treated_3', `min_control_3')
 local common_max_3 = min(`max_treated_3', `max_control_3')
 
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
@@ -579,6 +591,10 @@ local common_min = max(`min_treated', `min_control')
 local common_max = min(`max_treated', `max_control')
 
 keep if _ps >= `common_min' & _ps <= `common_max'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
@@ -615,6 +631,10 @@ local common_min_2 = max(`min_treated_2', `min_control_2')
 local common_max_2 = min(`max_treated_2', `max_control_2')
 
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
@@ -650,6 +670,10 @@ local common_min_3 = max(`min_treated_3', `min_control_3')
 local common_max_3 = min(`max_treated_3', `max_control_3')
 
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
@@ -795,6 +819,10 @@ local common_min = max(`min_treated', `min_control')
 local common_max = min(`max_treated', `max_control')
 
 keep if _ps >= `common_min' & _ps <= `common_max'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
@@ -831,6 +859,10 @@ local common_min_2 = max(`min_treated_2', `min_control_2')
 local common_max_2 = min(`max_treated_2', `max_control_2')
 
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
@@ -866,6 +898,10 @@ local common_min_3 = max(`min_treated_3', `min_control_3')
 local common_max_3 = min(`max_treated_3', `max_control_3')
 
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
@@ -1016,6 +1052,10 @@ local common_min = max(`min_treated', `min_control')
 local common_max = min(`max_treated', `max_control')
 
 keep if _ps >= `common_min' & _ps <= `common_max'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated, out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
@@ -1052,6 +1092,10 @@ local common_min_2 = max(`min_treated_2', `min_control_2')
 local common_max_2 = min(`max_treated_2', `max_control_2')
 
 keep if _ps_2 >= `common_min_2' & _ps <= `common_max_2'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
@@ -1087,6 +1131,10 @@ local common_min_3 = max(`min_treated_3', `min_control_3')
 local common_max_3 = min(`max_treated_3', `max_control_3')
 
 keep if _ps_3 >= `common_min_3' & _ps <= `common_max_3'
+summarize _ps
+
+local caliper = `r(sd)'/4
+display `r(sd)'
 
 *ssc install psmatch2
 psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
