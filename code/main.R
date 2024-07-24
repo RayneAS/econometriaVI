@@ -43,6 +43,7 @@ gc()
 #install.packages("srvyr")
 #install.packages("stats")
 #install.packages("plm")
+#install.packages("openxlsx")
 
 library(devtools)
 library(BETS)
@@ -100,7 +101,9 @@ library(PNADcIBGE)
 library(srvyr)
 library(stats)
 library(plm)
-
+library(foreign)
+library(dplyr)
+library(openxlsx)
 
 # Set user
 user = "Rayne"
