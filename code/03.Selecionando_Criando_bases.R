@@ -120,10 +120,10 @@ data <- data %>%
       filter(trab_max == 1) %>%
       select(-trabalha, -trab_max)
     
-    # Mantendo somente famílias cujo chefe trabalhava na terceira entrevista
+    # Mantendo somente famílias cujo chefe trabalhava na quarta entrevista
     data <- data %>%
       group_by(idind, V1016) %>%
-      mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==3, 1, 0)) %>%
+      mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==4, 1, 0)) %>%
       ungroup() %>%
       group_by(iddom) %>%
       mutate(trab_max = max(trabalha)) %>%
@@ -132,10 +132,10 @@ data <- data %>%
       select(-trabalha, -trab_max)
     
 
-    # Mantendo somente famílias cujo chefe trabalhava na quarta entrevista
+    # Mantendo somente famílias cujo chefe trabalhava na quinta entrevista
     data <- data %>%
       group_by(idind, V1016) %>%
-      mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==4, 1, 0)) %>%
+      mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==5, 1, 0)) %>%
       ungroup() %>%
       group_by(iddom) %>%
       mutate(trab_max = max(trabalha)) %>%
@@ -149,7 +149,7 @@ data <- data %>%
     
 chefe <- data %>% filter(V2005 == 1)
   
-write.dta(chefe, file = "D:/rayne/Documents/dados_econometria_VI/Base_final_chefe_todas_entrev_2.dta")
+write.dta(chefe, file = "D:/rayne/Documents/dados_econometria_VI/Base_final_chefe_todas_entrev_3.dta")
     
     
 
@@ -157,6 +157,6 @@ write.dta(chefe, file = "D:/rayne/Documents/dados_econometria_VI/Base_final_chef
     
 conjuge <- data %>% filter(V2005 %in% c(2,3))
     
-write.dta(conjuge, file = "D:/rayne/Documents/dados_econometria_VI/Base_final_conjuge_todas_entrev_2.dta")
+write.dta(conjuge, file = "D:/rayne/Documents/dados_econometria_VI/Base_final_conjuge_todas_entrev_3.dta")
     
   

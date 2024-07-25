@@ -4,33 +4,7 @@ global data_folder "D:/rayne/Documents/dados_econometria_VI"
 *log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
 
 // Abrir a base de dados 
-use "${data_folder}/Base_final_chefe.dta", clear
-
-*NOSSA AMOSTRA DE INTERESSE ESTÁ NOS CENTROS URBANOS
-keep if rural ==0
-
-ren VD4020 renda
-ren V403312 renda_2 
-ren VD4035 horas_trab_t
-ren V4039C horas_trab_pr 
-ren V1023 tipo_area 
-ren V1016 num_entrev 
-ren Ano ano
-ren Trimestre tri
-ren V2009 idade 
-ren V2010 cor
-ren VD3005 educ
-ren VD4010 grup_ativ
-ren V4008 temp_afast
-ren V2007 sexo
-ren V2001 num_pes_dom
-
-
-*630,603 observações
-
-
-// Abrir a base de dados 
-use "${data_folder}/Base_final_chefe_todas_entrev_2.dta", clear
+use "${data_folder}/Base_final_chefe_todas_entrev_3.dta", clear
 
 describe
 
