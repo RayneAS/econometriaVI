@@ -9,7 +9,7 @@ use "${data_folder}/Base_final_chefe_todas_entrev_3.dta", clear
 describe
 
 *NOSSA AMOSTRA DE INTERESSE ESTÁ NOS CENTROS URBANOS
-*keep if rural ==0
+keep if rural ==0
 
 ren VD4020 renda
 ren V403312 renda_2 
@@ -41,7 +41,7 @@ tab V2005
 *Cria as variaveis que serao utilizadas nos modelos
 *did para choque nao remunerado
 gen time = 0
-replace time = 1 if num_entrev == 5
+replace time = 1 if num_entrev == 3
 
 bysort idind:egen treated = max(choque_max_nremun)
 gen did = time*treated
@@ -67,15 +67,75 @@ drop if choque_max_remun==1 & num_entrev == 2
 drop if choque_max_nremun==1 & num_entrev == 2
 drop if choque_max_total==1 & num_entrev == 2
 
-drop if choque_max_remun==1 & num_entrev == 3
-drop if choque_max_nremun==1 & num_entrev == 3
-drop if choque_max_total==1 & num_entrev == 3
-
 drop if choque_max_remun==1 & num_entrev == 4
 drop if choque_max_nremun==1 & num_entrev == 4
 drop if choque_max_total==1 & num_entrev == 4
 
+drop if choque_max_remun==1 & num_entrev == 5
+drop if choque_max_nremun==1 & num_entrev == 5
+drop if choque_max_total==1 & num_entrev == 5
 
+* Gerar variáveis de tempo relativas ao evento
+gen event_time = num_entrev - 3 // Supondo que o choque ocorre na entrevista 3
+
+tab event_time
+
+* Gerar variáveis dummies para cada período relativo ao evento
+gen event_m2 = (event_time == -2)
+gen event_m1 = (event_time == -1)
+gen event_0 = (event_time == 0)
+gen event_1 = (event_time == 1)
+gen event_2 = (event_time == 2)
+
+tab event_m2
+tab event_m1
+tab event_0
+tab event_1
+tab event_2
+
+* Modelo de regressão
+regress renda_deflac event_m2 event_m1 event_0 event_1 event_2 i.ano i.tri, robust
+
+* Criar um dataset temporário para os coeficientes e erros padrão
+clear
+set obs 5
+
+* Definir os tempos relativos ao evento
+gen event_time = -2
+replace event_time = -1 in 2
+replace event_time = 0 in 3
+replace event_time = 1 in 4
+replace event_time = 2 in 5
+
+* Inicializar variáveis para coeficientes e erros padrão
+gen coef = .
+gen se = .
+
+* Preencher o dataset com coeficientes e erros padrão
+local vars "event_m2 event_m1 event_0 event_1 event_2"
+local index 1
+
+foreach var of local vars {
+    local coef_value = _b[`var']
+    local se_value = _se[`var']
+    
+    replace coef = `coef_value' in `index'
+    replace se = `se_value' in `index'
+    
+    local index = `index' + 1
+}
+
+* Calcular intervalos de confiança
+gen lb = coef - 1.96*se
+gen ub = coef + 1.96*se
+
+* Gráfico dos coeficientes
+twoway (connected coef event_time, sort) ///
+       (rarea lb ub event_time, color(gs12) sort), ///
+       yline(0, lstyle(dash)) ///
+       title("Event Study: Impacto ao Longo do Tempo") ///
+       xtitle("Tempo Relativo ao Evento") ///
+       ytitle("Coeficiente Estimado")
 
 ************** estima para choque nao remunerado*******************************
 
@@ -109,7 +169,7 @@ local caliper = `r(sd)'/4
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.0004) bw(0.06) common
+psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.0003) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -140,19 +200,6 @@ replace sup = 0 if sup == .
 tab sup _treated [aw=V1028], col
 
 
-* Criar gráfico para verificar tendências paralelas
-* Calcular médias ao longo do tempo para grupos tratado e controle
-collapse (mean) renda_deflac, by(treated time)
-
-* Gráfico de tendências paralelas
-twoway (line renda_deflac time if treated == 1, sort lcolor(blue) lpattern(solid) lwidth(medium)) ///
-       (line renda_deflac time if treated == 0, sort lcolor(red) lpattern(dash) lwidth(medium)), ///
-       legend(label(1 "Tratado") label(2 "Controle")) ///
-       title("Tendências Paralelas") ///
-       xlabel(1 "Ano 1" 2 "Ano 2" 3 "Ano 3" 4 "Ano 4" 5 "Ano 5") ///
-       ylabel(, angle(horizontal)) ///
-       xtitle("Ano") ///
-       ytitle("Média de Renda Deflacionada")
 
 
 *******************************************************************************
