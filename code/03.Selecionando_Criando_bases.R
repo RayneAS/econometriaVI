@@ -120,28 +120,28 @@ data <- data %>%
       filter(trab_max == 1) %>%
       select(-trabalha, -trab_max)
     
-    # Mantendo somente famílias cujo chefe trabalhava na quarta entrevista
-    data <- data %>%
-      group_by(idind, V1016) %>%
-      mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==4, 1, 0)) %>%
-      ungroup() %>%
-      group_by(iddom) %>%
-      mutate(trab_max = max(trabalha)) %>%
-      ungroup() %>%
-      filter(trab_max == 1) %>%
-      select(-trabalha, -trab_max)
-    
-
-    # Mantendo somente famílias cujo chefe trabalhava na quinta entrevista
-    data <- data %>%
-      group_by(idind, V1016) %>%
-      mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==5, 1, 0)) %>%
-      ungroup() %>%
-      group_by(iddom) %>%
-      mutate(trab_max = max(trabalha)) %>%
-      ungroup() %>%
-      filter(trab_max == 1) %>%
-      select(-trabalha, -trab_max)
+    # # Mantendo somente famílias cujo chefe trabalhava na quarta entrevista
+    # data <- data %>%
+    #   group_by(idind, V1016) %>%
+    #   mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==4, 1, 0)) %>%
+    #   ungroup() %>%
+    #   group_by(iddom) %>%
+    #   mutate(trab_max = max(trabalha)) %>%
+    #   ungroup() %>%
+    #   filter(trab_max == 1) %>%
+    #   select(-trabalha, -trab_max)
+    # 
+    # 
+    # # Mantendo somente famílias cujo chefe trabalhava na quinta entrevista
+    # data <- data %>%
+    #   group_by(idind, V1016) %>%
+    #   mutate(trabalha = ifelse(V2005 == 1 & V4001 == 1 & V1016 ==5, 1, 0)) %>%
+    #   ungroup() %>%
+    #   group_by(iddom) %>%
+    #   mutate(trab_max = max(trabalha)) %>%
+    #   ungroup() %>%
+    #   filter(trab_max == 1) %>%
+    #   select(-trabalha, -trab_max)
 
 # Salvando a base de dados
 
