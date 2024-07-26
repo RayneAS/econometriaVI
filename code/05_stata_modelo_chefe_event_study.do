@@ -60,7 +60,7 @@ gen post_shock3 = (time_to_shock == 3)
 
 
 * Estimar o modelo de event study com efeitos fixos
-xtreg renda_deflac pre_shock1 pre_shock2 post_shock1 post_shock2 post_shock3 i.choque_max_nremun, fe cluster(idind)
+xtreg renda_deflac pre_shock1 pre_shock2 post_shock1 post_shock2 post_shock3 i.choque_max_nremun i.cor i.idade i.educ, fe cluster(idind)
 
 * Coletar os coeficientes e erros padrão
 matrix coef = e(b)
@@ -95,6 +95,52 @@ twoway (rarea lower upper period, color(gs12)) (line coef1 period, lcolor(navy) 
     xlabel(-2(1)3) ylabel(, angle(0)) ///
     title("Event Study: Impacto do Choque de Saúde na Renda") ///
     xtitle("Período em relação ao choque") ytitle("Coeficiente de Renda")
+	
+
+	
+	
+	
+	
+	
+	
+* Estimar o modelo de event study com efeitos fixos
+xtreg renda_deflac pre_shock1 pre_shock2 post_shock1 post_shock2 post_shock3 i.choque_max_nremun i.cor i.idade i.educ i.ano i.tri, fe cluster(idind)
+			
+* Coletar os coeficientes e erros padrão
+matrix list e(b)
+matrix list e(V)
+
+* Criar variáveis para armazenar os coeficientes e intervalos de confiança
+gen coef = .
+gen lower = .
+gen upper = .
+
+* Períodos relativos ao choque
+local periods "pre_shock1 pre_shock2 post_shock1 post_shock2 post_shock3"
+
+* Coletar coeficientes e intervalos de confiança
+local i = 1
+foreach var of local periods {
+    replace coef = _b[`var'] if _n == `i'
+    replace lower = _b[`var'] - 1.96 * _se[`var'] if _n == `i'
+    replace upper = _b[`var'] + 1.96 * _se[`var'] if _n == `i'
+    local i = `i' + 1
+}
+
+* Criar variável de período
+gen period = .
+replace period = -2 if _n == 1
+replace period = -1 if _n == 2
+replace period = 1 if _n == 3
+replace period = 2 if _n == 4
+replace period = 3 if _n == 5
+
+* Plotar o gráfico
+twoway (rarea lower upper period, color(gs12)) (line coef period, lcolor(navy) lwidth(medium)), ///
+    xlabel(-2(1)3) ylabel(, angle(0)) ///
+    title("Event Study: Impacto do Choque de Saúde na Renda") ///
+    xtitle("Período em relação ao choque") ytitle("Coeficiente de Renda")
+	
 	
 	
 	
