@@ -1,7 +1,7 @@
 // Define o caminho para a pasta de dados
 global data_folder "D:/rayne/Documents/dados_econometria_VI"
 
-*log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
+log using "D:/rayne/Documents/dados_econometria_VI/model_chefe_choque_terceira_entrevista.log", replace
 
 // Abrir a base de dados 
 use "${data_folder}/Base_final_chefe_todas_entrev_3.dta", clear
@@ -75,68 +75,6 @@ drop if choque_max_remun==1 & num_entrev == 5
 drop if choque_max_nremun==1 & num_entrev == 5
 drop if choque_max_total==1 & num_entrev == 5
 
-* Gerar variáveis de tempo relativas ao evento
-gen event_time = num_entrev - 3 // Supondo que o choque ocorre na entrevista 3
-
-tab event_time
-
-* Gerar variáveis dummies para cada período relativo ao evento
-gen event_m2 = (event_time == -2)
-gen event_m1 = (event_time == -1)
-gen event_0 = (event_time == 0)
-gen event_1 = (event_time == 1)
-gen event_2 = (event_time == 2)
-
-tab event_m2
-tab event_m1
-tab event_0
-tab event_1
-tab event_2
-
-* Modelo de regressão
-regress renda_deflac event_m2 event_m1 event_0 event_1 event_2 i.ano i.tri, robust
-
-* Criar um dataset temporário para os coeficientes e erros padrão
-clear
-set obs 5
-
-* Definir os tempos relativos ao evento
-gen event_time = -2
-replace event_time = -1 in 2
-replace event_time = 0 in 3
-replace event_time = 1 in 4
-replace event_time = 2 in 5
-
-* Inicializar variáveis para coeficientes e erros padrão
-gen coef = .
-gen se = .
-
-* Preencher o dataset com coeficientes e erros padrão
-local vars "event_m2 event_m1 event_0 event_1 event_2"
-local index 1
-
-foreach var of local vars {
-    local coef_value = _b[`var']
-    local se_value = _se[`var']
-    
-    replace coef = `coef_value' in `index'
-    replace se = `se_value' in `index'
-    
-    local index = `index' + 1
-}
-
-* Calcular intervalos de confiança
-gen lb = coef - 1.96*se
-gen ub = coef + 1.96*se
-
-* Gráfico dos coeficientes
-twoway (connected coef event_time, sort) ///
-       (rarea lb ub event_time, color(gs12) sort), ///
-       yline(0, lstyle(dash)) ///
-       title("Event Study: Impacto ao Longo do Tempo") ///
-       xtitle("Tempo Relativo ao Evento") ///
-       ytitle("Coeficiente Estimado")
-
 ************** estima para choque nao remunerado*******************************
 
 *DID SEM PSM
@@ -169,7 +107,7 @@ local caliper = `r(sd)'/4
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.0003) bw(0.06) common
+psmatch2 treated , out(renda_deflac) pscore(_ps) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -236,7 +174,7 @@ display `r(sd)'
 
 
 *ssc install psmatch2
-psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.007) bw(0.06) common
+psmatch2 treated_2, out(renda_deflac) pscore(_ps_2) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -245,29 +183,6 @@ psgraph
 *Modelo com diff in diff e propensity score matching
 diff renda_deflac [aw=V1028], t(treated_2) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_2) robust
 
-drop estado
-drop fund
-drop med
-drop sup
-sum idade if _treated == 0 [aw=V1028]
-sum idade if _treated == 1 [aw=V1028]
-tab cor _treated [aw=V1028], col
-gen estado = 1 if inlist(UF, 21, 22, 23, 24, 25, 26, 27, 28, 29)
-replace estado = 2 if inlist(UF, 11, 12, 13, 14, 15, 16, 17)
-replace estado = 3 if inlist(UF, 31, 32, 33, 35)
-replace estado = 4 if inlist(UF, 41, 42, 43)
-replace estado = 5 if inlist(UF, 50, 51, 52, 53)
-tab estado _treated [aw=V1028], col
-tab grup_ativ _treated [aw=V1028], col
-gen fund = 1 if inlist(V3009, 5, 6)
-replace fund = 0 if fund == .
-tab fund _treated [aw=V1028], col
-gen med = 1 if inlist(V3009, 7, 8, 9)
-replace med= 0 if med == .
-tab med _treated [aw=V1028], col
-gen sup = 1 if inlist(V3009, 10, 11, 12)
-replace sup = 0 if sup == .
-tab sup _treated [aw=V1028], col
 *******************************************************************************
 ************** estima para choque remunerado e nao remunerado *******************************
 
@@ -301,7 +216,7 @@ local caliper = `r(sd)'/4
 display `r(sd)'
 
 *ssc install psmatch2
-psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.009) bw(0.06) common
+psmatch2 treated_3, out(renda_deflac) pscore(_ps_3) neighbor(1) caliper(0.001) bw(0.06) common
 
 pstest i.idade i.cor i.grup_ativ i.UF i.educ  , graph
 
@@ -311,29 +226,6 @@ psgraph
 diff renda_deflac [aw=V1028], t(treated_3) p(time) kernel id(idind) ktype(gaussian) pscore(_ps_3) robust
 
 
-drop estado
-drop fund
-drop med
-drop sup
-sum idade if _treated == 0 [aw=V1028]
-sum idade if _treated == 1 [aw=V1028]
-tab cor _treated [aw=V1028], col
-gen estado = 1 if inlist(UF, 21, 22, 23, 24, 25, 26, 27, 28, 29)
-replace estado = 2 if inlist(UF, 11, 12, 13, 14, 15, 16, 17)
-replace estado = 3 if inlist(UF, 31, 32, 33, 35)
-replace estado = 4 if inlist(UF, 41, 42, 43)
-replace estado = 5 if inlist(UF, 50, 51, 52, 53)
-tab estado _treated [aw=V1028], col
-tab grup_ativ _treated [aw=V1028], col
-gen fund = 1 if inlist(V3009, 5, 6)
-replace fund = 0 if fund == .
-tab fund _treated [aw=V1028], col
-gen med = 1 if inlist(V3009, 7, 8, 9)
-replace med= 0 if med == .
-tab med _treated [aw=V1028], col
-gen sup = 1 if inlist(V3009, 10, 11, 12)
-replace sup = 0 if sup == .
-tab sup _treated [aw=V1028], col
 *******************************************************************************
 
 
