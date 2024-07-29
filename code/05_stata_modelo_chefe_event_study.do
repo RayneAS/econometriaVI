@@ -1,7 +1,7 @@
 // Define o caminho para a pasta de dados
 global data_folder "D:/rayne/Documents/dados_econometria_VI"
 
-*log using "D:/rayne/Documents/dados_econometria_VI/model_chefe.log", replace
+log using "D:/rayne/Documents/dados_econometria_VI/model_chefe_event_study.log", replace
 
 // Abrir a base de dados 
 use "${data_folder}/Base_final_chefe_todas_entrev_3.dta", clear
@@ -59,49 +59,7 @@ gen post_shock2 = (time_to_shock == 2)
 gen post_shock3 = (time_to_shock == 3)
 
 
-* Estimar o modelo de event study com efeitos fixos
-xtreg renda_deflac pre_shock1 pre_shock2 post_shock1 post_shock2 post_shock3 i.choque_max_nremun i.cor i.idade i.educ, fe cluster(idind)
 
-* Coletar os coeficientes e erros padrão
-matrix coef = e(b)
-matrix se = e(V)
-
-* Preparar dados para o gráfico
-local n = rowsof(coef)
-gen time = -2
-
-forval i = 1/`n' {
-    local coef`i' = coef[1,`i']
-    local se`i' = sqrt(se[`i',`i'])
-    gen coef`i' = .
-    replace coef`i' = `coef`i'' if _n == `i'
-    gen se`i' = .
-    replace se`i' = `se`i'' if _n == `i'
-    replace time = time + 1 if _n == `i'
-}
-
-* Criar dataset para o gráfico
-gen lower = .
-gen upper = .
-gen period = .
-forval i = 1/`n' {
-    replace lower = coef`i' - 1.96*se`i'
-    replace upper = coef`i' + 1.96*se`i'
-    replace period = time[`i']
-}
-
-* Plotar o gráfico
-twoway (rarea lower upper period, color(gs12)) (line coef1 period, lcolor(navy) lwidth(medium)), ///
-    xlabel(-2(1)3) ylabel(, angle(0)) ///
-    title("Event Study: Impacto do Choque de Saúde na Renda") ///
-    xtitle("Período em relação ao choque") ytitle("Coeficiente de Renda")
-	
-
-	
-	
-	
-	
-	
 	
 * Estimar o modelo de event study com efeitos fixos
 xtreg renda_deflac pre_shock1 pre_shock2 post_shock1 post_shock2 post_shock3 i.choque_max_nremun i.cor i.idade i.educ i.ano i.tri, fe cluster(idind)
@@ -141,6 +99,5 @@ twoway (rarea lower upper period, color(gs12)) (line coef period, lcolor(navy) l
     title("Event Study: Impacto do Choque de Saúde na Renda") ///
     xtitle("Período em relação ao choque") ytitle("Coeficiente de Renda")
 	
-	
-	
+log close	
 	
