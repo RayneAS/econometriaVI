@@ -8,6 +8,9 @@ gc()
 library(basedosdados)
 library(tidyverse)
 library(lubridate)
+library(dplyr)
+library(stargazer)
+
 
 #Billing ID in Google Big Query
 set_billing_id("stately-furnace-418521")
@@ -436,8 +439,14 @@ freq
 freq <- table(addNA(PNS_sample$dias_deixou_trab_saude))
 freq
 
+avg <- mean(PNS_sample$dias_deixou_trab_saude, na.rm = TRUE)
+avg
+
 freq <- table(addNA(PNS_sample$dias_acamado))
 freq
+
+avg <- mean(PNS_sample$dias_acamado, na.rm = TRUE)
+avg
 
 #Mantem as pessoas que deixaram de trabalhar por motivo relacionado ao trabalho 
 PNS_sample_2 <- PNS_sample %>% 
@@ -469,8 +478,6 @@ freq
 
 #Analise por domicilio usando a var deixou de trabalhar por doença -----------------------------------------------------
 
-library(dplyr)
-library(stargazer)
 
 # Filtrar para domicílios onde o chefe (sexo masculino) deixou de trabalhar por problemas de saúde
 chefe_doente <- PNS_2019 %>%
