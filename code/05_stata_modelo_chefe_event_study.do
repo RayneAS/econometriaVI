@@ -59,7 +59,6 @@ gen post_shock2 = (time_to_shock == 2)
 gen post_shock3 = (time_to_shock == 3)
 
 
-
 	
 * Estimar o modelo de event study com efeitos fixos
 xtreg renda_deflac pre_shock1 pre_shock2 post_shock1 post_shock2 post_shock3 i.choque_max_nremun i.cor i.idade i.educ i.ano i.tri, fe cluster(idind)
@@ -93,6 +92,21 @@ replace period = 1 if _n == 3
 replace period = 2 if _n == 4
 replace period = 3 if _n == 5
 
+* Plotar o gráfico -mais clean
+twoway (rarea lower upper period, color(gs12)) ///
+       (line coef period, lcolor(navy) lwidth(medium)), ///
+    xlabel(-2(1)3) ylabel(, angle(0)) ///
+    xtitle("Período em relação ao choque") ytitle("Coeficiente de Renda") ///
+    legend(off) ///
+    title("") ///
+    graphregion(color(white)) ///
+    plotregion(style(none))
+
+* Plotar o gráfico
+twoway (rarea lower upper period, color(gs12)) (line coef period, lcolor(navy) lwidth(medium)), ///
+    xlabel(-2(1)3) ylabel(, angle(0)) ///
+    xtitle("Período em relação ao choque") ytitle("Coeficiente de Renda")
+		
 * Plotar o gráfico
 twoway (rarea lower upper period, color(gs12)) (line coef period, lcolor(navy) lwidth(medium)), ///
     xlabel(-2(1)3) ylabel(, angle(0)) ///
